@@ -1,13 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
 
+#include "ktytemp.h"
 
 #define BUFFER_SIZE 5
-
-double temp(int inputval);
-double volt_pin(double v_in, int pin_val);
-double temp_kty85_110(double res);
-double res_volt_divider(double v_in, double v_out, double r1_res);
 
 int main (int argc, char **argv)
 {
@@ -20,17 +15,18 @@ int main (int argc, char **argv)
           printf("The temperature is %f\n", temp(atoi(buffer)));
      }
   
-     return EXIT_SUCCESS;
+     return 0;
 }
+
+/*
+  http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1240316856
+*/
 
 double temp(int pinval)
 {
      double v_in = 5.0;
      double v_out = volt_pin(v_in, pinval);
      double res = res_volt_divider(v_in, v_out, 10000);
-
-     printf("v_out = %f\n", v_out);
-     printf("res = %f\n", res);
                                    
      return temp_kty85_110(res);
 }
