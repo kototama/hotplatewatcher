@@ -7,7 +7,7 @@ extern "C" {
 struct state_s state;
 
 void setup() {
-  delay(5000);
+  delay(10000);
   init_state(&state);
   Serial.begin(9600);
 }
@@ -44,5 +44,5 @@ void loop() {
         }
   }
     
-  delay(2000);
+  delay(3000);
 }

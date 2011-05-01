@@ -1,6 +1,6 @@
 #include "statemachine.h"
 
-#include "WProgram.h"
+unsigned long millis();
 
 void next_state(struct state_s *state)
 {

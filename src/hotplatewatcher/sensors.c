@@ -1,14 +1,20 @@
+#include "sensors.h"
 #include "state.h"
+#include "ktytemp.h"
+
+#include "WProgram.h"
+
+unsigned long millis();
+int analogRead(uint8_t pin);
 
 void take_time(struct state_s *state)
 {
     state->current_time = millis();
 }
 
-int current_temp = 19;
-
 void take_temp(struct state_s *state)
 {
-    state->current_temp = current_temp++;
+    int pin_val = analogRead(THERMISTOR_PIN);
+    state->current_temp = temp(pin_val);
 }
 
