@@ -4,6 +4,7 @@
 
 #define BUFFER_SIZE 5
 
+/*
 int main (int argc, char **argv)
 {
      char buffer[BUFFER_SIZE];
@@ -16,7 +17,7 @@ int main (int argc, char **argv)
      }
   
      return 0;
-}
+}*/
 
 /*
   http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1240316856
