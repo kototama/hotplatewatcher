@@ -2,7 +2,9 @@ extern "C" {
   #include "state.h"
   #include "sensors.h"
   #include "statemachine.h"
-}
+ } 
+
+/*extern "C" void __cxa_pure_virtual() {}*/
 
 struct state_s state;
 
@@ -19,7 +21,6 @@ void loop() {
   next_state(&state);
   
   if(state.logging) {
-    
       Serial.println("\n=============");
       Serial.print("time = ");
       Serial.println(state.current_time);
@@ -43,6 +44,6 @@ void loop() {
             break;
         }
   }
-    
+
   delay(3000);
 }
