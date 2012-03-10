@@ -35,13 +35,14 @@
 #     upload your program to the Arduino board.
 
 TARGET = $(notdir $(CURDIR))
-INSTALL_DIR = /opt/arduino-0022
+INSTALL_DIR = /opt/arduino-1.0
 PORT = /dev/ttyACM0
 UPLOAD_RATE = 115200
 AVRDUDE_PROGRAMMER = stk500v1
 MCU = atmega328p
 F_CPU = 16000000
-USER_SRC=ktytemp.c sensors.c state.c statemachine.c
+USER_SRC=hserial.c
+#ktytemp.c sensors.c state.c statemachine.c hserial.c
 
 ############################################################################
 # Below here nothing should be changed...
@@ -49,13 +50,12 @@ USER_SRC=ktytemp.c sensors.c state.c statemachine.c
 ARDUINO = $(INSTALL_DIR)/hardware/arduino/cores/arduino
 AVR_TOOLS_PATH = /usr/bin
 AVRDUDE_PATH = $(INSTALL_DIR)/hardware/tools
-SRC =  $(ARDUINO)/pins_arduino.c $(ARDUINO)/wiring.c \
+SRC = $(ARDUINO)/wiring.c \
 $(ARDUINO)/wiring_analog.c $(ARDUINO)/wiring_digital.c \
 $(ARDUINO)/wiring_pulse.c \
 $(ARDUINO)/wiring_shift.c $(ARDUINO)/WInterrupts.c \
  $(USER_SRC)
-CXXSRC = $(ARDUINO)/HardwareSerial.cpp $(ARDUINO)/WMath.cpp \
-$(ARDUINO)/Print.cpp $(ARDUINO)/WString.cpp
+CXXSRC = 
 FORMAT = ihex
 
 
@@ -74,7 +74,7 @@ CDEFS = -DF_CPU=$(F_CPU)
 CXXDEFS = -DF_CPU=$(F_CPU)
 
 # Place -I options here
-CINCS = -I$(ARDUINO)
+CINCS = -I$(ARDUINO) -I$(INSTALL_DIR)/hardware/arduino/variants/standard
 CXXINCS = -I$(ARDUINO)
 
 # Compiler flag to set the C Standard level.
@@ -91,7 +91,7 @@ CTUNING = -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) $(CWARN) $(CSTANDARD) $(CEXTRA)
 CXXFLAGS = $(CDEFS) $(CINCS) -O$(OPT)
 #ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs
-LDFLAGS = -lm
+LDFLAGS = -lm 
 
 
 # Programming support using avrdude. Settings and variables.
@@ -138,11 +138,9 @@ build: elf hex
 # Then the .cpp file will be compiled. Errors during compile will
 # refer to this new, automatically generated, file.
 # Not the original .pde file you actually edit...
-applet/$(TARGET).cpp: $(TARGET).pde
+applet/$(TARGET).c: $(TARGET).c
 	 test -d applet || mkdir applet
-	 echo '#include "WProgram.h"' > applet/$(TARGET).cpp
-	 cat $(TARGET).pde >> applet/$(TARGET).cpp
-	 cat $(ARDUINO)/main.cpp >> applet/$(TARGET).cpp
+	 cp $(TARGET).c applet/$(TARGET).c
 
 elf: applet/$(TARGET).elf
 hex: applet/$(TARGET).hex
@@ -200,8 +198,8 @@ extcoff: $(TARGET).elf
 	$(NM) -n $< > $@
 
 # Link: create ELF output file from library.
-applet/$(TARGET).elf: applet/$(TARGET).cpp applet/core.a
-	$(CC) $(ALL_CFLAGS) -o $@ applet/$(TARGET).cpp -L. applet/core.a $(LDFLAGS)
+applet/$(TARGET).elf: applet/$(TARGET).c applet/core.a
+	$(CC) $(ALL_CFLAGS) -o $@ applet/$(TARGET).c -L. applet/core.a $(LDFLAGS)
 
 applet/core.a: $(OBJ)
 	@for i in $(OBJ); do echo $(AR) rcs applet/core.a $$i; $(AR) rcs applet/core.a $$i; done
