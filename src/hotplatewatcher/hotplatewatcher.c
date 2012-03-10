@@ -1,5 +1,18 @@
+#include <pins_arduino.h>
+
+#include "ktytemp.h"
+
 #include "util/delay.h"
 #include "hserial.h"
+
+#define PIN_THERMISTOR A0
+#define TMP_BUFF_LEN 25
+
+int thermistor_value = 0;
+int temperature = 0;
+
+char tmp_msg[TMP_BUFF_LEN];
+
 
 void setup();
 void loop();
@@ -20,7 +33,9 @@ void loop() {
   
   hs_writeChar(0, (uint8_t)'a');
   hs_writeChar(0, (uint8_t)64);
-  
+  hs_writeStr(0, "hello\n");
+  snprintf(tmp_msg, TMP_BUFF_LEN, "Hello %d\n", 1042);
+  hs_writeStr(0, tmp_msg);
 //  delay(3000);
 }
 

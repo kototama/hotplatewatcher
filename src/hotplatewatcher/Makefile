@@ -41,7 +41,7 @@ UPLOAD_RATE = 115200
 AVRDUDE_PROGRAMMER = stk500v1
 MCU = atmega328p
 F_CPU = 16000000
-USER_SRC=hserial.c
+USER_SRC=hserial.c ktytemp.c
 #ktytemp.c sensors.c state.c statemachine.c hserial.c
 
 ############################################################################
