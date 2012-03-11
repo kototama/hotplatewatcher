@@ -13,8 +13,8 @@ struct state_s {
     unsigned long unguard_time_threshold; /* if temperature has decreased
                                              how long we wait before
                                              going back to WATCHING */
-    double current_temp; /* current temperature in celcius */  
-    double temp_threshold; /* temperature threshold before going in GUARDING
+    int current_temp; /* current temperature in celcius */  
+    int temp_threshold; /* temperature threshold before going in GUARDING
                            state */
 };
 

@@ -1,9 +1,8 @@
 #include "sensors.h"
 #include "state.h"
 #include "ktytemp.h"
-
-unsigned long millis();
-int analogRead(uint8_t pin);
+#include "pin.h"
+#include "hserial.h"
 
 void take_time(struct state_s *state)
 {
@@ -12,7 +11,9 @@ void take_time(struct state_s *state)
 
 void take_temp(struct state_s *state)
 {
-    int pin_val = analogRead(THERMISTOR_PIN);
-    state->current_temp = temp(pin_val);
+  char tmp_msg[25];
+  
+  int pin_val = analogRead(THERMISTOR_PIN);
+  state->current_temp = (int)temp(pin_val);
 }
 
