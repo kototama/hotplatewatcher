@@ -4,29 +4,26 @@ extern "C" {
 #include "pin.h"
 #include "sensors.h"
 #include "statemachine.h"
+#include "effector.h"
 }
 
 
 struct state_s state;
 
 void setup() {
-  init_state(&state);
+    init_state(&state);
   
-  pinMode(13, OUTPUT);
+    pinMode(13, OUTPUT);
 
-  if(state.logging) {
-    hs_init();
-    hs_start(0, 9600); // set arduino soft to 19200 to read?!
-  }
+    if(state.logging) {
+        hs_init();
+        hs_start(0, 9600); // set arduino soft to 19200 to read?!
+    }
 }
 
 void loop() {
-  digitalWrite(LED_PIN, LOW);
-  delay(3000);
-  digitalWrite(LED_PIN, HIGH);
-
-  take_time(&state);
-  take_temp(&state);
-  next_state(&state);
-  
+    take_time(&state);
+    take_temp(&state);
+    next_state(&state);
+    apply_state(&state);
 }
