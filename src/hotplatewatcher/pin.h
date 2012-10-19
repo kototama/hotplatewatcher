@@ -6,4 +6,6 @@
 #define THERMISTOR_PIN A0
 #define LED_PIN 13
 
+#define SPEAKER_PIN 9
+
 #endif

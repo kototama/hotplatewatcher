@@ -13,7 +13,7 @@ struct state_s state;
 void setup() {
     init_state(&state);
   
-    pinMode(13, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
 
     if(state.logging) {
         hs_init();
